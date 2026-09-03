@@ -40,8 +40,7 @@
 //! ```
 use anyhow::{anyhow, bail, Result};
 use bytes::{Bytes, BytesMut};
-use crc::{Crc, CRC_32_ISO_HDLC};
-use crc32c::crc32c;
+use crc_fast::{checksum, CrcAlgorithm};
 use indexmap::IndexMap;
 
 use crate::protocol::{
@@ -53,7 +52,14 @@ use super::compression::{self as cmpr, Compressor, Decompressor};
 use std::cmp::Ordering;
 use std::convert::TryFrom;
 /// IEEE (checksum) cyclic redundancy check.
-pub const IEEE: Crc<u32> = Crc::<u32>::new(&CRC_32_ISO_HDLC);
+pub const IEEE: CrcAlgorithm = CrcAlgorithm::Crc32IsoHdlc;
+
+#[inline]
+/// Kafka record batches use CRC32C (Castagnoli), which maps to
+/// `CrcAlgorithm::Crc32Iscsi` in `crc-fast`.
+fn crc32c(data: &[u8]) -> u32 {
+    u32::try_from(checksum(CrcAlgorithm::Crc32Iscsi, data)).expect("Crc32Iscsi must fit in u32")
+}
 
 /// The different types of compression supported by Kafka.
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -972,6 +978,11 @@ mod tests {
         )
         .unwrap();
         buf.freeze()
+    }
+
+    #[test]
+    fn ieee_uses_crc32_iso_hdlc() {
+        assert_eq!(0xcbf4_3926, checksum(IEEE, b"123456789"));
     }
 
     #[test]
