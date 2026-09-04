@@ -129,6 +129,7 @@ macro_rules! define_gap_types {
             use super::*;
             $(
                 #[derive(Copy, Clone, Debug)]
+                #[allow(dead_code)]
                 pub(crate) struct $n;
 
                 impl GapType for $n {
