@@ -14,6 +14,10 @@
 
 * Replace the direct `crc` and `crc32c` dependencies with `crc-fast` 1.10.0
 
+### Tooling
+
+* Use the stable Rust toolchain and Rust 2024 edition
+
 ## 0.18.0
 
 ### Breaking changes ⚠️
