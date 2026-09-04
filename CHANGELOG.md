@@ -4,7 +4,7 @@
 
 ### Breaking changes ⚠️
 
-* Keep `records::IEEE`, but change its type from `crc::Crc<u32>` to `crc_fast::CrcAlgorithm`
+* Remove the public `records::IEEE` CRC helper
 
 ### Features
 

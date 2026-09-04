@@ -51,8 +51,6 @@ use crate::protocol::{
 use super::compression::{self as cmpr, Compressor, Decompressor};
 use std::cmp::Ordering;
 use std::convert::TryFrom;
-/// IEEE (checksum) cyclic redundancy check.
-pub const IEEE: CrcAlgorithm = CrcAlgorithm::Crc32IsoHdlc;
 
 #[inline]
 /// Kafka record batches use CRC32C (Castagnoli), which maps to
@@ -978,11 +976,6 @@ mod tests {
         )
         .unwrap();
         buf.freeze()
-    }
-
-    #[test]
-    fn ieee_uses_crc32_iso_hdlc() {
-        assert_eq!(0xcbf4_3926, checksum(IEEE, b"123456789"));
     }
 
     #[test]
