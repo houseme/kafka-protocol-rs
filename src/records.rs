@@ -56,7 +56,7 @@ use std::convert::TryFrom;
 /// Kafka record batches use CRC32C (Castagnoli), which maps to
 /// `CrcAlgorithm::Crc32Iscsi` in `crc-fast`.
 fn crc32c(data: &[u8]) -> u32 {
-    u32::try_from(checksum(CrcAlgorithm::Crc32Iscsi, data)).expect("Crc32Iscsi must fit in u32")
+    checksum(CrcAlgorithm::Crc32Iscsi, data) as u32
 }
 
 /// The different types of compression supported by Kafka.
