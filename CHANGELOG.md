@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Breaking changes ⚠️
+
+* Remove the public `records::IEEE` CRC helper
+
+### Features
+
+* Use `crc-fast` 1.10.0 for hardware-accelerated record batch CRC32C checksums
+
+### Dependency updates
+
+* Replace the direct `crc` and `crc32c` dependencies with `crc-fast` 1.10.0
+
 ## 0.18.0
 
 ### Breaking changes ⚠️
